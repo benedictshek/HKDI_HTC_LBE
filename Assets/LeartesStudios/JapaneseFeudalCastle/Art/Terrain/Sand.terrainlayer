@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1953259897 &8574412962073106934
+TerrainLayer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Sand
+  m_DiffuseTexture: {fileID: 2800000, guid: 94a3d1cd8d72dfa489d1971003bd0338, type: 3}
+  m_NormalMapTexture: {fileID: 2800000, guid: d0e60661e756eb549ae3ebcfa501b64a, type: 3}
+  m_MaskMapTexture: {fileID: 2800000, guid: dfe1c927c1a6f8e438135bd6271b1dee, type: 3}
+  m_TileSize: {x: 10, y: 10}
+  m_TileOffset: {x: 0, y: 0}
+  m_Specular: {r: 0, g: 0, b: 0, a: 0}
+  m_Metallic: 0
+  m_Smoothness: 0
+  m_NormalScale: 2
+  m_DiffuseRemapMin: {x: 0, y: 0, z: 0, w: 0}
+  m_DiffuseRemapMax: {x: 1, y: 1, z: 1, w: 1}
+  m_MaskMapRemapMin: {x: 0.5465165, y: 0.3080389, z: 0, w: 0.27082944}
+  m_MaskMapRemapMax: {x: 0.5759539, y: 0.3403911, z: 1, w: 0.30901077}
