@@ -21,7 +21,7 @@ public class HelloWorldManager : MonoBehaviour
         {
             StatusLabels();
 
-            //SubmitNewPosition();
+            SubmitNewPosition();
         }
 
         GUILayout.EndArea();
@@ -44,7 +44,7 @@ public class HelloWorldManager : MonoBehaviour
         GUILayout.Label("Mode: " + mode);
     }
 
-    /*private void SubmitNewPosition()
+    private void SubmitNewPosition()
     {
         if (GUILayout.Button(m_NetworkManager.IsServer ? "Move" : "Request Position Change"))
         {
@@ -60,5 +60,5 @@ public class HelloWorldManager : MonoBehaviour
                 player.Move();
             }
         }
-    }*/
+    }
 }
