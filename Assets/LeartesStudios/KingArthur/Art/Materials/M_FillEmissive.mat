@@ -290,7 +290,7 @@ Material:
     - _ZWrite: 1
     - _ZWriteControl: 0
     m_Colors:
-    - Color_6c574131421d42f4a92a94ee899eef21: {r: 0.942549, g: 0.98025095, b: 0.99215686, a: 1}
+    - Color_6c574131421d42f4a92a94ee899eef21: {r: 1, g: 0.74564743, b: 0.25943398, a: 1}
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _BaseColorMap_MipInfo: {r: 0, g: 0, b: 0, a: 0}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
