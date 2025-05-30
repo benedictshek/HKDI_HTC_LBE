@@ -1,3 +1,4 @@
+using System;
 using Unity.Netcode;
 using Unity.XR.CoreUtils;
 using UnityEngine;
@@ -7,6 +8,9 @@ public class XRINetworkPlayer : NetworkBehaviour
     [Header("Avatar Transform References"), Tooltip("Assign to local avatar transform.")]
     /// Non-Local player transforms.
     public Transform head;
+    
+    /// Action called when the Local Player is finished spawning in.
+    public Action onSpawnedLocal;
     
     /// Reference to the local player XR Origin
     protected XROrigin m_XROrigin;
@@ -37,6 +41,14 @@ public class XRINetworkPlayer : NetworkBehaviour
             {
                 Utils.Log("No XR Rig Available", 1);
             }
+            
+            SetupLocalPlayer();
         }
+    }
+    
+    /// <remarks>Only called on the Local Player.</remarks>
+    protected virtual void SetupLocalPlayer()
+    {
+        onSpawnedLocal?.Invoke();
     }
 }

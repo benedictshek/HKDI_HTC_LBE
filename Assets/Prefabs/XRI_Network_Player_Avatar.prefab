@@ -90,6 +90,7 @@ GameObject:
   - component: {fileID: 4116866669000311299}
   - component: {fileID: 6281016072457377857}
   - component: {fileID: 4508385042666136004}
+  - component: {fileID: 8792550848546321534}
   m_Layer: 0
   m_Name: XRI_Network_Player_Avatar
   m_TagString: Untagged
@@ -172,6 +173,21 @@ MonoBehaviour:
   m_HeadHeightOffset: 0.3
   m_RotateThreshold: 25
   m_RotateSpeed: 3
+--- !u!114 &8792550848546321534
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5893110041850829712}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 21cb0150a9ef1f845bcba54d4fba35d6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_HeadRends:
+  - {fileID: 3225954916581506609}
+  - {fileID: 595913799738047617}
 --- !u!1001 &7944096705216968830
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -229,9 +245,19 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 11aa239aa004f41ffaf96def6065ff4c, type: 3}
+--- !u!23 &595913799738047617 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: -1839151259086666497, guid: 11aa239aa004f41ffaf96def6065ff4c, type: 3}
+  m_PrefabInstance: {fileID: 7944096705216968830}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &2681406199554983740 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5406955521524612930, guid: 11aa239aa004f41ffaf96def6065ff4c, type: 3}
+  m_PrefabInstance: {fileID: 7944096705216968830}
+  m_PrefabAsset: {fileID: 0}
+--- !u!137 &3225954916581506609 stripped
+SkinnedMeshRenderer:
+  m_CorrespondingSourceObject: {fileID: -4396642182433536433, guid: 11aa239aa004f41ffaf96def6065ff4c, type: 3}
   m_PrefabInstance: {fileID: 7944096705216968830}
   m_PrefabAsset: {fileID: 0}
 --- !u!4 &6028343546875841501 stripped
