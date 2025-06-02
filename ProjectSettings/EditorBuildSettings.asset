@@ -11,9 +11,12 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/MultiplayerTestScene2.unity
     guid: 4d680e6627ed1094995ad1d512b81ec2
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/SampleScene.unity
     guid: 99c9720ab356a0642a771bea13969a05
+  - enabled: 1
+    path: Assets/LeartesStudios/KingArthur/Scenes/KingArthur_URP_Lod1Ver.unity
+    guid: 590dbbdde781f4445ac3aa825a8f544d
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
     com.unity.xr.management.loader_settings: {fileID: 11400000, guid: 18ea4d64fc8d12442a32d303aa3d9c36, type: 2}
