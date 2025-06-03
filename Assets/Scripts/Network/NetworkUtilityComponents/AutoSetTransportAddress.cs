@@ -1,3 +1,4 @@
+using Unity.Netcode;
 using UnityEngine;
 using Unity.Netcode.Transports.UTP;
 
@@ -5,12 +6,10 @@ public class AutoSetTransportAddress : MonoBehaviour
 {
     void Awake()
     {
-        var transport = GetComponent<UnityTransport>();
-        if (transport != null)
-        {
-            string localIP = NetworkUtils.GetLocalIPAddress();
-            transport.ConnectionData.Address = localIP;
-            Debug.Log($"[Netcode] Auto-set transport address to: {localIP}");
-        }
+        NetworkManager.Singleton.GetComponent<UnityTransport>().SetConnectionData(
+            NetworkUtils.GetLocalIPAddress(),  // Get the IP address
+            (ushort)7777,
+            "0.0.0.0"
+        );
     }
 }
