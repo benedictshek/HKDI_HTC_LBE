@@ -9,6 +9,8 @@ public class XRINetworkPlayer : NetworkBehaviour
     /// Non-Local player transforms.
     public Transform head;
     
+    public CapsuleCollider collider;
+    
     /// Action called when the Local Player is finished spawning in.
     public Action onSpawnedLocal;
     
@@ -24,6 +26,10 @@ public class XRINetworkPlayer : NetworkBehaviour
 
         // Set transforms to be replicated with ClientNetworkTransforms
         head.SetPositionAndRotation(m_HeadOrigin.position, m_HeadOrigin.rotation);
+        
+        var height = m_HeadOrigin.position.y - m_XROrigin.transform.position.y;
+        collider.height = height;
+        collider.transform.position = m_HeadOrigin.position - Vector3.up * height / 2;
     }
     
     public override void OnNetworkSpawn()
