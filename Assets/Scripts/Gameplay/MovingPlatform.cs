@@ -1,7 +1,8 @@
 using UnityEngine;
 using System.Collections;
+using Unity.Netcode;
 
-public class MovingPlatform : MonoBehaviour
+public class MovingPlatform : NetworkBehaviour
 {
     public float moveDistance = 3f;
     public float moveSpeed = 0.5f;
@@ -21,6 +22,8 @@ public class MovingPlatform : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        if(!IsServer) return; // Only the server handles logic
+        
         if (other.CompareTag("Player"))
         {
             _isPlayerOnPlatform = true;
@@ -35,6 +38,8 @@ public class MovingPlatform : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
+        if(!IsServer) return; // Only the server handles logic
+        
         if (other.CompareTag("Player"))
         {
             _isPlayerOnPlatform = false;

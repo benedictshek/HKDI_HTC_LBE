@@ -7,7 +7,7 @@ public class NetworkConnectionInitializer : MonoBehaviour
     [SerializeField] private float retryInterval = 5.0f; // Seconds between retries
     [SerializeField] private float retryTimeout = 60f; // Total time to retry before giving up
     
-#if UNITY_EDITOR
+#if UNITY_EDITOR || UNITY_STANDALONE_WIN
     private void OnGUI()
     {
         GUILayout.BeginArea(new Rect(10, 10, 300, 300));
