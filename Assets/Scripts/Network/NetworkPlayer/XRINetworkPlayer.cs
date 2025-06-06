@@ -27,7 +27,7 @@ public class XRINetworkPlayer : NetworkBehaviour
         // Set transforms to be replicated with ClientNetworkTransforms
         head.SetPositionAndRotation(m_HeadOrigin.position, m_HeadOrigin.rotation);
         
-        var height = m_HeadOrigin.position.y - m_XROrigin.transform.position.y;
+        var height = m_HeadOrigin.position.y;
         collider.height = height;
         collider.transform.position = m_HeadOrigin.position - Vector3.up * height / 2;
     }
