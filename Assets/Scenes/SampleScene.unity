@@ -1094,7 +1094,7 @@ GameObject:
   - component: {fileID: 1996960892}
   m_Layer: 0
   m_Name: PlayerCollider
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1253,6 +1253,7 @@ GameObject:
   - component: {fileID: 2103492600}
   - component: {fileID: 2103492599}
   - component: {fileID: 2103492598}
+  - component: {fileID: 2103492602}
   m_Layer: 0
   m_Name: Lifting platform
   m_TagString: Lift
@@ -1304,7 +1305,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+  - {fileID: 2100000, guid: 928d6e879cbf67442966c7e27609601a, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1349,6 +1350,22 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2103492602
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2103492597}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 828cde5fe044f6540a668e2fa6e9dc41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moveDistance: 3
+  moveSpeed: 0.5
+  waitTimeToGoUp: 3
+  waitTimeOnTop: 10
 --- !u!1 &2105756868
 GameObject:
   m_ObjectHideFlags: 0
