@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 using Unity.Netcode;
 
 public class MovingPlatform : NetworkBehaviour
@@ -12,9 +13,8 @@ public class MovingPlatform : NetworkBehaviour
     private Vector3 _originalPosition;
     private Vector3 _targetPosition;
     private bool _isMoving;
-
-    private int _playersOnPlatform;
-    private bool IsAnyPlayerOnPlatform() => _playersOnPlatform > 0;
+    
+    private HashSet<ulong> _playersOnPlatform = new HashSet<ulong>();
 
     private void Start()
     {
@@ -28,13 +28,14 @@ public class MovingPlatform : NetworkBehaviour
         
         if (other.CompareTag("Player"))
         {
-            Debug.Log("Player entered platform");
-            _playersOnPlatform += 1;
-
-            // Only start coroutine if not already moving
-            if (!_isMoving)
+            var networkObject = other.GetComponentInParent<NetworkObject>();
+            if (networkObject != null)
             {
-                StartCoroutine(MovePlatformRoutine());
+                _playersOnPlatform.Add(networkObject.OwnerClientId);
+                NotifyClientOnPlatformClientRpc(networkObject.OwnerClientId, true);
+
+                if (!_isMoving)
+                    StartCoroutine(MovePlatformRoutine());
             }
         }
     }
@@ -45,8 +46,21 @@ public class MovingPlatform : NetworkBehaviour
         
         if (other.CompareTag("Player"))
         {
-            Debug.Log("Player exited platform");
-            _playersOnPlatform -= 1;
+            var networkObject = other.GetComponentInParent<NetworkObject>();
+            if (networkObject != null)
+            {
+                _playersOnPlatform.Remove(networkObject.OwnerClientId);
+                NotifyClientOnPlatformClientRpc(networkObject.OwnerClientId, false);
+            }
+        }
+    }
+    
+    [ClientRpc]
+    private void NotifyClientOnPlatformClientRpc(ulong clientId, bool isOnPlatform)
+    {
+        if (NetworkManager.Singleton.LocalClientId == clientId)
+        {
+            XRPlatformFollower.Instance.SetOnPlatform(isOnPlatform, this);
         }
     }
 
@@ -54,33 +68,24 @@ public class MovingPlatform : NetworkBehaviour
     {
         _isMoving = true;
 
-        while (true)
+        while (_playersOnPlatform.Count > 0)
         {
-            // Wait on bottom
+            // Wait before move up
             yield return new WaitForSeconds(waitTimeToGoUp);
 
-            if (!IsAnyPlayerOnPlatform())
+            if (_playersOnPlatform.Count == 0)
             {
                 _isMoving = false;
                 yield break; // Exit coroutine if no player
             }
 
-            // Move up
+            // Move up, Wait on top, Move back down
             yield return StartCoroutine(MoveToPosition(_targetPosition));
-
-            // Wait on top
             yield return new WaitForSeconds(waitTimeOnTop);
-
-            // Move down
             yield return StartCoroutine(MoveToPosition(_originalPosition));
-
-            // Check if player still on it
-            if (!IsAnyPlayerOnPlatform())
-            {
-                _isMoving = false;
-                yield break; // Exit if no player to start loop again
-            }
         }
+        
+        _isMoving = false;
     }
 
     private IEnumerator MoveToPosition(Vector3 target)
