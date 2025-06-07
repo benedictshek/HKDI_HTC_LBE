@@ -11,8 +11,10 @@ public class MovingPlatform : NetworkBehaviour
 
     private Vector3 _originalPosition;
     private Vector3 _targetPosition;
-    private bool _isPlayerOnPlatform;
     private bool _isMoving;
+
+    private int _playersOnPlatform;
+    private bool IsAnyPlayerOnPlatform() => _playersOnPlatform > 0;
 
     private void Start()
     {
@@ -26,7 +28,8 @@ public class MovingPlatform : NetworkBehaviour
         
         if (other.CompareTag("Player"))
         {
-            _isPlayerOnPlatform = true;
+            Debug.Log("Player entered platform");
+            _playersOnPlatform += 1;
 
             // Only start coroutine if not already moving
             if (!_isMoving)
@@ -42,7 +45,8 @@ public class MovingPlatform : NetworkBehaviour
         
         if (other.CompareTag("Player"))
         {
-            _isPlayerOnPlatform = false;
+            Debug.Log("Player exited platform");
+            _playersOnPlatform -= 1;
         }
     }
 
@@ -55,7 +59,7 @@ public class MovingPlatform : NetworkBehaviour
             // Wait on bottom
             yield return new WaitForSeconds(waitTimeToGoUp);
 
-            if (!_isPlayerOnPlatform)
+            if (!IsAnyPlayerOnPlatform())
             {
                 _isMoving = false;
                 yield break; // Exit coroutine if no player
@@ -71,7 +75,7 @@ public class MovingPlatform : NetworkBehaviour
             yield return StartCoroutine(MoveToPosition(_originalPosition));
 
             // Check if player still on it
-            if (!_isPlayerOnPlatform)
+            if (!IsAnyPlayerOnPlatform())
             {
                 _isMoving = false;
                 yield break; // Exit if no player to start loop again
