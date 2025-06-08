@@ -4,13 +4,8 @@ using UnityEngine;
 public class LiftZone : MonoBehaviour
 {
     [SerializeField] private MovingPlatform platform;
-    private float _platformHeightOffset;
-
-    private void Awake()
-    {
-        _platformHeightOffset = platform.GetComponent<Collider>().bounds.size.y / 2;
-    }
-
+    [SerializeField] private float platformHeightOffset;
+    
     private void OnTriggerEnter(Collider other)
     {
         if (!other.CompareTag("Player"))
@@ -25,7 +20,7 @@ public class LiftZone : MonoBehaviour
 
     private void TryLiftPlayer()
     {
-        float platformTopY = platform.transform.position.y + _platformHeightOffset;
+        float platformTopY = platform.transform.position.y + platformHeightOffset;
 
         var xrOrigin = XRPlatformFollower.Instance;
         if (xrOrigin != null)
