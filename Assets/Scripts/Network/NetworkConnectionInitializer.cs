@@ -7,24 +7,46 @@ public class NetworkConnectionInitializer : MonoBehaviour
     [SerializeField] private float retryInterval = 5.0f; // Seconds between retries
     [SerializeField] private float retryTimeout = 60f; // Total time to retry before giving up
     
-    private void Start()
+#if UNITY_EDITOR || UNITY_STANDALONE_WIN
+    private void OnGUI()
     {
-        if (Application.isEditor)
+        GUILayout.BeginArea(new Rect(10, 10, 300, 300));
+        if (!NetworkManager.Singleton.IsClient && !NetworkManager.Singleton.IsServer)
         {
-            //Debug.Log("Editor - start as Host for testing");
-            //NetworkManager.Singleton.StartHost();
-            Debug.Log("Editor - start as Server");
-            NetworkManager.Singleton.StartServer();
-        }
-        else if (Application.platform == RuntimePlatform.Android)
-        {
-            Debug.Log("VR device - start as Client");
-            StartCoroutine(TryConnectToServer());
+            StartButtons();
         }
         else
         {
-            Debug.Log("PC build - start as Server");
-            NetworkManager.Singleton.StartServer();
+            StatusLabels();
+        }
+
+        GUILayout.EndArea();
+    }
+    
+    private void StartButtons()
+    {
+        if (GUILayout.Button("Host")) NetworkManager.Singleton.StartHost();
+        if (GUILayout.Button("Client")) NetworkManager.Singleton.StartClient();
+        if (GUILayout.Button("Server")) NetworkManager.Singleton.StartServer();
+    }
+    
+    private void StatusLabels()
+    {
+        var mode = NetworkManager.Singleton.IsHost ?
+            "Host" : NetworkManager.Singleton.IsServer ? "Server" : "Client";
+
+        GUILayout.Label("Transport: " +
+                        NetworkManager.Singleton.NetworkConfig.NetworkTransport.GetType().Name);
+        GUILayout.Label("Mode: " + mode);
+    }
+#endif
+    
+    private void Start()
+    {
+        if (Application.platform == RuntimePlatform.Android)
+        {
+            Debug.Log("VR device - start as Client");
+            StartCoroutine(TryConnectToServer());
         }
     }
     
