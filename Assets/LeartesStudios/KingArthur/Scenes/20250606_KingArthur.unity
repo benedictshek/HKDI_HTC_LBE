@@ -1601,7 +1601,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: beed439eb921a44448bdaaad7cbed80a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  waitTimeForDelay: 15
+  waitTimeForDelay: 20
+  waitTimeForDelay2: 7
+  waitTimeForDelay3: 2
+  waitTimeForDelay4: 2
+  audioClip: {fileID: 8300000, guid: 7497bf6674048dc4b9feaeb91e5c52a4, type: 3}
+  audioClip2: {fileID: 8300000, guid: 5ed25191907cdc54ca74e9791c297991, type: 3}
+  audioClip3: {fileID: 8300000, guid: 4795f3f745456c34ead6c9e4cf766687, type: 3}
+  audioClip4: {fileID: 8300000, guid: ca1b192eb1bac5947b05bc53cd911ad0, type: 3}
 --- !u!1001 &78459249
 PrefabInstance:
   m_ObjectHideFlags: 0
