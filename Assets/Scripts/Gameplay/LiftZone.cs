@@ -4,12 +4,7 @@ using UnityEngine;
 public class LiftZone : MonoBehaviour
 {
     [SerializeField] private MovingPlatform platform;
-    private float _platformHeightOffset;
-
-    private void Awake()
-    {
-        _platformHeightOffset = platform.GetComponent<Collider>().bounds.size.y / 2;
-    }
+    [SerializeField] private float _platformHeightOffset;
 
     private void OnTriggerEnter(Collider other)
     {

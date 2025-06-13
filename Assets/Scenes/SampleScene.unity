@@ -1175,7 +1175,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   platform: {fileID: 2103492602}
-  platformHeightOffset: 0.1775
+  _platformHeightOffset: 0.1775
 --- !u!1 &2081379619
 GameObject:
   m_ObjectHideFlags: 0
