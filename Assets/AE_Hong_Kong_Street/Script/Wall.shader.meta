@@ -1,0 +1,21 @@
+fileFormatVersion: 2
+guid: 9464de9836a8e674eaa549121d7288e0
+ShaderImporter:
+  externalObjects: {}
+  defaultTextures:
+  - _Wall_Mask: {fileID: 2800000, guid: 9f69ce4e5d2735a49a5f50740adb2938, type: 3}
+  - _Wall_01_A: {fileID: 2800000, guid: e2833beffdb01d041b5e1d780f68dfe7, type: 3}
+  - _Wall_01_N: {fileID: 2800000, guid: 70f24e4014768144f9f1c7a71bb98ec1, type: 3}
+  - _Wall_01_MS: {fileID: 2800000, guid: 56f37c8628dce30478794e560e3d15fd, type: 3}
+  nonModifiableTextures: []
+  preprocessorOverride: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 191880
+  packageName: Hong Kong Street
+  packageVersion: 1.2
+  assetPath: Assets/AE_Hong_Kong_Street/Script/Wall.shader
+  uploadId: 611060
