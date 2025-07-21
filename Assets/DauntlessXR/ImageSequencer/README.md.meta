@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: b82b4d2593d18084fbc59d797ed823e5
+TextScriptImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 308040
+  packageName: Image Sequencer
+  packageVersion: 1.0
+  assetPath: Assets/DauntlessXR/ImageSequencer/README.md
+  uploadId: 726137

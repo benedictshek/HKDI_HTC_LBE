@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 43e1f6108a9477341aee12eaa0b28611
+TextScriptImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 308040
+  packageName: Image Sequencer
+  packageVersion: 1.0
+  assetPath: Assets/DauntlessXR/ImageSequencer/LICENSE.txt
+  uploadId: 726137
