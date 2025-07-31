@@ -7,7 +7,7 @@ public class ObjectSequencerUpdate : MonoBehaviour
     public GameObject object2;
     public GameObject object3;
 
-    public float delay = 30f;
+    public float delay = 45f;
 
     void Start()
     {
