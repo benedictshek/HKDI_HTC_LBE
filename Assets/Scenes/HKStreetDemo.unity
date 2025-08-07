@@ -100805,7 +100805,7 @@ MonoBehaviour:
   - {fileID: 751613083}
   - {fileID: 1778644865}
   - {fileID: 1120273483}
-  interval: 10
+  interval: 15
 --- !u!82 &856718663
 AudioSource:
   m_ObjectHideFlags: 0
@@ -156100,7 +156100,7 @@ Transform:
   m_GameObject: {fileID: 1392161073}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -6.7910004, y: 1.079, z: -3.76}
+  m_LocalPosition: {x: -6.7910004, y: 1.165, z: -3.76}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
