@@ -5,51 +5,57 @@ public class CarMover : MonoBehaviour
 {
     public Transform[] waypoints;
     public float speed = 5f;
+    public float waitCrossing = 5f;
+    public float resetCar = 1f;
+
+    public Transform[] wheels;
+    public float wheelRotationSpeed = 180f;
+
     private int currentWaypointIndex = 0;
     private bool isWaiting = false;
-
-    public float waitForCross = 5f;
-    public float waitForReset = 1f;
 
     void Start()
     {
         if (waypoints.Length > 0)
         {
             transform.position = waypoints[0].position;
-            FaceNextWaypoint();
+            currentWaypointIndex = 1;
         }
     }
 
     void Update()
     {
-        if (waypoints.Length == 0 || isWaiting) return;
+        if (isWaiting || waypoints.Length < 2) return;
 
-        Transform targetWaypoint = waypoints[currentWaypointIndex];
-        Vector3 direction = targetWaypoint.position - transform.position;
-        transform.Translate(direction.normalized * speed * Time.deltaTime, Space.World);
+        Transform target = waypoints[currentWaypointIndex];
+        transform.position = Vector3.MoveTowards(transform.position, target.position, speed * Time.deltaTime);
 
-        // Smooth rotation toward direction
-        if (direction != Vector3.zero)
-        {
-            Quaternion toRotation = Quaternion.LookRotation(direction);
-            transform.rotation = Quaternion.Slerp(transform.rotation, toRotation, Time.deltaTime * 5f);
-        }
+        RotateWheels();
 
-        // Arrived at target waypoint
-        if (direction.magnitude < 0.2f)
+        // Reached target waypoint
+        if (transform.position == target.position)
         {
             currentWaypointIndex++;
 
-            // At the end of the path
             if (currentWaypointIndex >= waypoints.Length)
             {
                 StartCoroutine(ResetCar());
             }
-            // At pedestrian crossing (waypoint 1)
-            else if (currentWaypointIndex == 2) // just reached waypoint 1 (going to 2)
+            else if (currentWaypointIndex == 2) // Wait at waypoint 1
             {
-                StartCoroutine(WaitAtCrossing(waitForCross));
+                StartCoroutine(WaitAtCrossing(waitCrossing));
             }
+        }
+    }
+
+    void RotateWheels()
+    {
+        if (wheels == null || wheels.Length == 0 || isWaiting) return;
+
+        float rotationAmount = wheelRotationSpeed * Time.deltaTime;
+        foreach (Transform wheel in wheels)
+        {
+            wheel.Rotate(Vector3.right, rotationAmount, Space.Self);
         }
     }
 
@@ -63,25 +69,11 @@ public class CarMover : MonoBehaviour
     IEnumerator ResetCar()
     {
         isWaiting = true;
-        yield return new WaitForSeconds(waitForReset);
+        yield return new WaitForSeconds(resetCar);
 
-        // Reset to start
-        currentWaypointIndex = 1; // next target after reset
         transform.position = waypoints[0].position;
-        FaceNextWaypoint();
+        currentWaypointIndex = 1;
 
         isWaiting = false;
-    }
-
-    private void FaceNextWaypoint()
-    {
-        if (waypoints.Length >= 2)
-        {
-            Vector3 direction = waypoints[1].position - waypoints[0].position;
-            if (direction != Vector3.zero)
-            {
-                transform.rotation = Quaternion.LookRotation(direction);
-            }
-        }
     }
 }
