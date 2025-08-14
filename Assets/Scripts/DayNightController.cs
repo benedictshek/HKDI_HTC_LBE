@@ -27,13 +27,16 @@ public class DayNightController : MonoBehaviour
     [Header("Emission Materials")]
     public Material[] emissionMats;
 
-    public Animator neonAnimator;
+    public Animator[] neonAnimators;
     
     private bool isNight = false;
 
     private void Start()
     {
-        neonAnimator.enabled = false;
+        foreach (var animator in neonAnimators)
+        {
+            animator.enabled = false;
+        }
     }
 
     [Button]
@@ -54,9 +57,12 @@ public class DayNightController : MonoBehaviour
         }
         
         // Animator control
-        if (neonAnimator != null)
+        foreach (var animator in neonAnimators)
         {
-            neonAnimator.enabled = isNight;
+            if (animator != null)
+            {
+                animator.enabled = isNight;
+            }
         }
         
         // Point lights
