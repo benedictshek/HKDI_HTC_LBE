@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using VInspector;
 
@@ -25,9 +26,16 @@ public class DayNightController : MonoBehaviour
     
     [Header("Emission Materials")]
     public Material[] emissionMats;
+
+    public Animator neonAnimator;
     
     private bool isNight = false;
-    
+
+    private void Start()
+    {
+        neonAnimator.enabled = false;
+    }
+
     [Button]
     public void ToggleDayNight()
     {
@@ -43,6 +51,12 @@ public class DayNightController : MonoBehaviour
         if (directionalLight != null)
         {
             directionalLight.intensity = isNight ? nightDirectionalIntensity : dayDirectionalIntensity;
+        }
+        
+        // Animator control
+        if (neonAnimator != null)
+        {
+            neonAnimator.enabled = isNight;
         }
         
         // Point lights
