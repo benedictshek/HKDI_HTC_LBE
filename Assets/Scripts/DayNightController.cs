@@ -60,10 +60,12 @@ public class DayNightController : MonoBehaviour
                 if (isNight)
                 {
                     mat.EnableKeyword("_EMISSION");
+                    mat.globalIlluminationFlags = MaterialGlobalIlluminationFlags.BakedEmissive;
                 }
                 else
                 {
                     mat.DisableKeyword("_EMISSION");
+                    mat.globalIlluminationFlags = MaterialGlobalIlluminationFlags.EmissiveIsBlack;
                 }
             }
         }
@@ -76,6 +78,7 @@ public class DayNightController : MonoBehaviour
             if (mat != null)
             {
                 mat.DisableKeyword("_EMISSION");
+                mat.globalIlluminationFlags = MaterialGlobalIlluminationFlags.EmissiveIsBlack;
             }
         }
     }
