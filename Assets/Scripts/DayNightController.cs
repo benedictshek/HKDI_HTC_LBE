@@ -1,4 +1,4 @@
-using System;
+using System.Collections;
 using UnityEngine;
 using VInspector;
 
@@ -30,6 +30,11 @@ public class DayNightController : MonoBehaviour
     public Animator[] neonAnimators;
     
     private bool isNight = false;
+    
+    [Header("Transition Settings")]
+    public float transitionDuration = 10f;
+
+    private bool isTransitioning = false;
 
     private void Start()
     {
@@ -40,6 +45,78 @@ public class DayNightController : MonoBehaviour
     }
 
     [Button]
+    public void ToggleDayNight()
+    {
+        if (!isTransitioning)
+            StartCoroutine(TransitionDayNight(!isNight));
+    }
+    
+    private IEnumerator TransitionDayNight(bool toNight)
+    {
+        isTransitioning = true;
+
+        float elapsed = 0f;
+
+        // Cache start and target values
+        float startDirIntensity = directionalLight.intensity;
+        float endDirIntensity = toNight ? nightDirectionalIntensity : dayDirectionalIntensity;
+
+        float startAmbient = RenderSettings.ambientIntensity;
+        float endAmbient = toNight ? nightAmbientIntensity : dayAmbientIntensity;
+
+        float startFog = RenderSettings.fogDensity;
+        float endFog = toNight ? fogDensityNight : fogDensityDay;
+
+        // Set skybox immediately (or replace with blended shader logic)
+        RenderSettings.skybox = toNight ? nightSkybox : daySkybox;
+
+        while (elapsed < transitionDuration)
+        {
+            float t = elapsed / transitionDuration;
+
+            directionalLight.intensity = Mathf.Lerp(startDirIntensity, endDirIntensity, t);
+            RenderSettings.ambientIntensity = Mathf.Lerp(startAmbient, endAmbient, t);
+            RenderSettings.fogDensity = Mathf.Lerp(startFog, endFog, t);
+
+            elapsed += Time.deltaTime;
+            yield return null;
+        }
+
+        // Finalize values after transition
+        directionalLight.intensity = endDirIntensity;
+        RenderSettings.ambientIntensity = endAmbient;
+        RenderSettings.fogDensity = endFog;
+
+        // Apply night-only effects AFTER transition
+        bool enableNightEffects = toNight;
+
+        foreach (var animator in neonAnimators)
+            animator.enabled = enableNightEffects;
+
+        foreach (var light in pointLights)
+            light.enabled = enableNightEffects;
+
+        foreach (var mat in emissionMats)
+        {
+            if (mat == null) continue;
+
+            if (enableNightEffects)
+            {
+                mat.EnableKeyword("_EMISSION");
+                mat.globalIlluminationFlags = MaterialGlobalIlluminationFlags.BakedEmissive;
+            }
+            else
+            {
+                mat.DisableKeyword("_EMISSION");
+                mat.globalIlluminationFlags = MaterialGlobalIlluminationFlags.EmissiveIsBlack;
+            }
+        }
+
+        isNight = toNight;
+        isTransitioning = false;
+    }
+
+    /*[Button]
     public void ToggleDayNight()
     {
         isNight = !isNight;
@@ -89,7 +166,7 @@ public class DayNightController : MonoBehaviour
                 }
             }
         }
-    }
+    }*/
 
     private void OnDisable()
     {
