@@ -66525,7 +66525,6 @@ MonoBehaviour:
   - {fileID: 2086841039}
   emissionMats:
   - {fileID: 2100000, guid: e060f18a1bdccbc4d9da4e5b57b48042, type: 2}
-  - {fileID: 2100000, guid: f772f3a4cbf63c04ca0868b69156d9dd, type: 2}
   neonAnimators:
   - {fileID: 1473457040}
   - {fileID: 571218057}
@@ -165701,6 +165700,14 @@ PrefabInstance:
     - target: {fileID: -6689036041284674117, guid: c141711df16309e44820ed48e173e658, type: 3}
       propertyPath: m_Name
       value: neon
+      objectReference: {fileID: 0}
+    - target: {fileID: -3896403268295422810, guid: c141711df16309e44820ed48e173e658, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.05
+      objectReference: {fileID: 0}
+    - target: {fileID: -3896403268295422810, guid: c141711df16309e44820ed48e173e658, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: -845207882007203174, guid: c141711df16309e44820ed48e173e658, type: 3}
       propertyPath: m_IsActive
