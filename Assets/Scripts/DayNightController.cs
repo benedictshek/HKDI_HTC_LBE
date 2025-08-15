@@ -4,9 +4,10 @@ using VInspector;
 
 public class DayNightController : MonoBehaviour
 {
+    private static readonly int Blend = Shader.PropertyToID("_Blend");
+
     [Header("Sky Boxes")]
-    public Material daySkybox;
-    public Material nightSkybox;
+    public Material blendSkybox;
     
     [Header("Lighting")]
     public Light directionalLight;
@@ -67,12 +68,15 @@ public class DayNightController : MonoBehaviour
         float startFog = RenderSettings.fogDensity;
         float endFog = toNight ? fogDensityNight : fogDensityDay;
 
-        // Set skybox immediately (or replace with blended shader logic)
-        RenderSettings.skybox = toNight ? nightSkybox : daySkybox;
+        float blend = toNight ? 1f : 0f; 
 
         while (elapsed < transitionDuration)
         {
             float t = elapsed / transitionDuration;
+            
+            // Set blend value over time
+            float currentBlend = Mathf.Lerp(toNight ? 0f : 1f, blend, t);
+            blendSkybox.SetFloat(Blend, currentBlend);
 
             directionalLight.intensity = Mathf.Lerp(startDirIntensity, endDirIntensity, t);
             RenderSettings.ambientIntensity = Mathf.Lerp(startAmbient, endAmbient, t);
@@ -83,6 +87,7 @@ public class DayNightController : MonoBehaviour
         }
 
         // Finalize values after transition
+        blendSkybox.SetFloat(Blend, blend);
         directionalLight.intensity = endDirIntensity;
         RenderSettings.ambientIntensity = endAmbient;
         RenderSettings.fogDensity = endFog;
@@ -178,5 +183,7 @@ public class DayNightController : MonoBehaviour
                 mat.globalIlluminationFlags = MaterialGlobalIlluminationFlags.EmissiveIsBlack;
             }
         }
+        
+        blendSkybox.SetFloat(Blend, 0);
     }
 }

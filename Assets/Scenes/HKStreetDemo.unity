@@ -26,7 +26,7 @@ RenderSettings:
   m_AmbientIntensity: 1.85
   m_AmbientMode: 0
   m_SubtractiveShadowColor: {r: 0.42, g: 0.478, b: 0.627, a: 1}
-  m_SkyboxMaterial: {fileID: 2100000, guid: 3fea3625d5b16884a93ad9b8bd4d5988, type: 2}
+  m_SkyboxMaterial: {fileID: 2100000, guid: 296871a6ba3bd76409e85a0913ce3a88, type: 2}
   m_HaloStrength: 0.5
   m_FlareStrength: 1
   m_FlareFadeSpeed: 3
@@ -66478,8 +66478,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e17021488050d7e45acde1d2222a8206, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  daySkybox: {fileID: 2100000, guid: 3fea3625d5b16884a93ad9b8bd4d5988, type: 2}
-  nightSkybox: {fileID: 2100000, guid: d4454f71d85928744be7771e2143dab7, type: 2}
+  blendSkybox: {fileID: 2100000, guid: 296871a6ba3bd76409e85a0913ce3a88, type: 2}
   directionalLight: {fileID: 705507994}
   dayDirectionalIntensity: 1.6
   nightDirectionalIntensity: 0
@@ -66529,6 +66528,7 @@ MonoBehaviour:
   - {fileID: 1473457040}
   - {fileID: 571218057}
   - {fileID: 1167651663}
+  transitionDuration: 10
 --- !u!1001 &570645517
 PrefabInstance:
   m_ObjectHideFlags: 0
