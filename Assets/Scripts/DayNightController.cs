@@ -1,8 +1,9 @@
 using System.Collections;
+using Unity.Netcode;
 using UnityEngine;
 using VInspector;
 
-public class DayNightController : MonoBehaviour
+public class DayNightController : NetworkBehaviour
 {
     private static readonly int Blend = Shader.PropertyToID("_Blend");
 
@@ -30,10 +31,12 @@ public class DayNightController : MonoBehaviour
 
     public Animator[] neonAnimators;
     
-    private bool isNight = false;
+    //private bool isNight = false;
+    private NetworkVariable<bool> isNight = new NetworkVariable<bool>(false,
+        NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
     
     [Header("Transition Settings")]
-    public float transitionDuration = 10f;
+    public float transitionDuration = 20f;
 
     private bool isTransitioning = false;
 
@@ -49,7 +52,25 @@ public class DayNightController : MonoBehaviour
     public void ToggleDayNight()
     {
         if (!isTransitioning)
-            StartCoroutine(TransitionDayNight(!isNight));
+            StartCoroutine(TransitionDayNight(!isNight.Value));
+    }
+    
+    /// Called from server to all clients
+    [ClientRpc]
+    private void StartTransitionClientRpc(bool toNight)
+    {
+        if (!isTransitioning)
+            StartCoroutine(TransitionDayNight(toNight));
+    }
+
+    public void TriggerTransition(bool toNight)
+    {
+        if (IsServer && !isTransitioning)
+        {
+            StartCoroutine(TransitionDayNight(toNight));
+            StartTransitionClientRpc(toNight); // Tell all clients to do the same
+            isNight.Value = toNight;
+        }
     }
     
     private IEnumerator TransitionDayNight(bool toNight)
@@ -116,8 +137,7 @@ public class DayNightController : MonoBehaviour
                 mat.globalIlluminationFlags = MaterialGlobalIlluminationFlags.EmissiveIsBlack;
             }
         }
-
-        isNight = toNight;
+        
         isTransitioning = false;
     }
 
@@ -185,5 +205,10 @@ public class DayNightController : MonoBehaviour
         }
         
         blendSkybox.SetFloat(Blend, 0);
+    }
+    
+    public bool IsNight()
+    {
+        return isNight.Value;
     }
 }

@@ -1,7 +1,9 @@
 using UnityEngine;
+using Unity.Netcode;
 using System.Collections;
+using Unity.Netcode.Components;
 
-public class CarMover : MonoBehaviour
+public class CarMover : NetworkBehaviour
 {
     public Transform[] waypoints;
     public float speed = 5f;
@@ -12,7 +14,10 @@ public class CarMover : MonoBehaviour
     public float wheelRotationSpeed = 180f;
 
     private int currentWaypointIndex = 0;
-    private bool isWaiting = false;
+
+    // Networked version of isWaiting
+    private NetworkVariable<bool> isWaiting = new NetworkVariable<bool>(false, 
+        NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
 
     void Start()
     {
@@ -25,32 +30,38 @@ public class CarMover : MonoBehaviour
 
     void Update()
     {
-        if (isWaiting || waypoints.Length < 2) return;
-
-        Transform target = waypoints[currentWaypointIndex];
-        transform.position = Vector3.MoveTowards(transform.position, target.position, speed * Time.deltaTime);
-
-        RotateWheels();
-
-        // Reached target waypoint
-        if (transform.position == target.position)
+        if (IsServer)
         {
-            currentWaypointIndex++;
+            if (isWaiting.Value || waypoints.Length < 2) return;
 
-            if (currentWaypointIndex >= waypoints.Length)
+            Transform target = waypoints[currentWaypointIndex];
+            transform.position = Vector3.MoveTowards(transform.position, target.position, speed * Time.deltaTime);
+
+            if (transform.position == target.position)
             {
-                StartCoroutine(ResetCar());
+                currentWaypointIndex++;
+
+                if (currentWaypointIndex >= waypoints.Length)
+                {
+                    StartCoroutine(ResetCar());
+                }
+                else if (currentWaypointIndex == 2)
+                {
+                    StartCoroutine(WaitAtCrossing(waitCrossing));
+                }
             }
-            else if (currentWaypointIndex == 2) // Wait at waypoint 1
-            {
-                StartCoroutine(WaitAtCrossing(waitCrossing));
-            }
+        }
+
+        // Rotate wheels on all clients, but only if not waiting
+        if (!isWaiting.Value)
+        {
+            RotateWheels();
         }
     }
 
     void RotateWheels()
     {
-        if (wheels == null || wheels.Length == 0 || isWaiting) return;
+        if (wheels == null || wheels.Length == 0) return;
 
         float rotationAmount = wheelRotationSpeed * Time.deltaTime;
         foreach (Transform wheel in wheels)
@@ -61,19 +72,26 @@ public class CarMover : MonoBehaviour
 
     IEnumerator WaitAtCrossing(float waitTime)
     {
-        isWaiting = true;
+        isWaiting.Value = true;
         yield return new WaitForSeconds(waitTime);
-        isWaiting = false;
+        isWaiting.Value = false;
     }
 
     IEnumerator ResetCar()
     {
-        isWaiting = true;
+        isWaiting.Value = true;
         yield return new WaitForSeconds(resetCar);
 
-        transform.position = waypoints[0].position;
-        currentWaypointIndex = 1;
+        if (TryGetComponent<NetworkTransform>(out var netTransform))
+        {
+            netTransform.Teleport(waypoints[0].position, transform.rotation, transform.localScale);
+        }
+        else
+        {
+            transform.position = waypoints[0].position; // Fallback
+        }
 
-        isWaiting = false;
+        currentWaypointIndex = 1;
+        isWaiting.Value = false;
     }
 }
