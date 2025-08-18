@@ -46025,7 +46025,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 569848640}
+  m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &353615852 stripped
 Transform:
@@ -66714,10 +66714,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 569848640}
-  - component: {fileID: 569848641}
   - component: {fileID: 569848643}
-  - component: {fileID: 569848642}
   - component: {fileID: 569848644}
+  - component: {fileID: 569848641}
+  - component: {fileID: 569848642}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -66737,8 +66737,7 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 353440446}
+  m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &569848641
@@ -66753,11 +66752,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e77201ec9f5e7fd4b80dd12267f97df6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
   plane: {fileID: 1359068841}
   endTransform: {fileID: 353440446}
   speed: 15
-  initialDelay: 20
-  resetDelay: 20
 --- !u!114 &569848642
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -66862,7 +66860,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
-  interval: 45
+  initialDelay: 45
 --- !u!1001 &570645517
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -275810,6 +275808,7 @@ SceneRoots:
   - {fileID: 1994480109}
   - {fileID: 523303712}
   - {fileID: 1004230484}
+  - {fileID: 353440446}
   - {fileID: 569848640}
   - {fileID: 1441078884}
   - {fileID: 571218055}

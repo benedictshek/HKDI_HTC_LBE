@@ -1,49 +1,50 @@
 using System.Collections;
+using Unity.Netcode;
 using UnityEngine;
 
-public class PlaneFlyController : MonoBehaviour
+public class PlaneFlyController : NetworkBehaviour
 {
     public GameObject plane;
     private Vector3 startPos;
     public Transform endTransform;
-    public float speed = 20f;        // Speed of the plane (units per second)
-    public float initialDelay = 15f; // Delay before first flight
-    public float resetDelay = 15f;   // Delay after disappearing before reset
+    public float speed = 15f;
+    //public float initialDelay = 15f; // Delay before first flight
+    // float resetDelay = 15f;   // Delay after disappearing before reset
+    
+    private GameFlowManager callbackManager;
 
-    private void Start()
+    private void Awake()
     {
-        // Hide the plane at the start
-        plane.SetActive(false);
-        
         startPos = plane.transform.position;
-        
-        // Start the flight loop
-        StartCoroutine(FlightLoop());
+        plane.SetActive(false);
+    }
+    
+    public void StartFlight(GameFlowManager manager)
+    {
+        if (!IsServer) return;
+
+        callbackManager = manager;
+        plane.SetActive(true);
+        StartCoroutine(PlaneFly());
     }
 
-    private IEnumerator FlightLoop()
+    private IEnumerator PlaneFly()
     {
-        // Initial delay before the first flight
-        yield return new WaitForSeconds(initialDelay);
+        plane.transform.position = startPos;
 
-        while (true)
+        // Move towards the end position
+        while (Vector3.Distance(plane.transform.position, endTransform.position) > 0.1f)
         {
-            // Reset position to start, face the end, and show the plane
-            plane.transform.position = startPos;
-            plane.SetActive(true);
-
-            // Move towards the end position
-            while (Vector3.Distance(plane.transform.position, endTransform.position) > 0.1f)
-            {
-                plane.transform.position = Vector3.MoveTowards(plane.transform.position, endTransform.position, speed * Time.deltaTime);
-                yield return null; // Wait for next frame
-            }
-
-            // Hide the plane once it reaches the end
-            plane.SetActive(false);
-
-            // Wait before resetting and restarting
-            yield return new WaitForSeconds(resetDelay);
+            plane.transform.position = Vector3.MoveTowards(plane.transform.position, endTransform.position, speed * Time.deltaTime);
+            yield return null; // Wait for next frame
         }
+
+        // Hide the plane once it reaches the end
+        plane.SetActive(false);
+
+        // Wait before resetting and restarting
+        //yield return new WaitForSeconds(resetDelay);
+            
+        callbackManager?.OnPlaneFlightCompleted();
     }
 }

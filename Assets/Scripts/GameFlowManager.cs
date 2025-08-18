@@ -4,29 +4,40 @@ using UnityEngine;
 public class GameFlowManager : NetworkBehaviour
 {
     private DayNightController dayNightController;
+    private PlaneFlyController planeFlyController;
     
-    public float interval = 45f;
+    public float initialDelay = 45f;
+    
     private float timer;
+    private bool hasTriggeredPlane;
     private bool hasTransitioned;
     
     private void Awake()
     {
         dayNightController = GetComponent<DayNightController>();
+        planeFlyController = GetComponent<PlaneFlyController>();
     }
 
     private void Update()
     {
-        if (!IsServer || !dayNightController || hasTransitioned) return;
+        if (!IsServer || hasTransitioned) return;
 
         timer += Time.deltaTime;
-        if (timer >= interval)
+        
+        if (timer >= initialDelay && !hasTriggeredPlane)
         {
-            timer = 0f;
-
-            // Trigger the day night transition
-            bool nextIsNight = !dayNightController.IsNight(); // Add helper method if needed
-            dayNightController.TriggerTransition(nextIsNight);
-            hasTransitioned = true; // Set the flag to true after transition
+            hasTriggeredPlane = true;
+            planeFlyController.StartFlight(this);
         }
+    }
+    
+    // Called by PlaneFlyController when plane flight completes
+    public void OnPlaneFlightCompleted()
+    {
+        if (hasTransitioned) return;
+
+        bool nextIsNight = !dayNightController.IsNight();
+        dayNightController.TriggerTransition(nextIsNight);
+        hasTransitioned = true;
     }
 }
