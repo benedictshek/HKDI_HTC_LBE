@@ -2194,7 +2194,6 @@ GameObject:
   - component: {fileID: 36283114}
   - component: {fileID: 36283113}
   - component: {fileID: 36283112}
-  - component: {fileID: 36283111}
   m_Layer: 0
   m_Name: XR Origin (VR)
   m_TagString: Untagged
@@ -2202,18 +2201,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &36283111
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 36283110}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 651abfe2955f75343b8b8eb1f199389a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &36283112
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2253,7 +2240,7 @@ Transform:
   m_GameObject: {fileID: 36283110}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -8.322, y: 16.111, z: 13.67}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -67090,10 +67077,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
-  initialDelay: 45
+  rooftopDuration: 30
+  planeDelay: 45
   cars:
   - {fileID: 113937575}
   - {fileID: 1985825290}
+  xrOrigin: {fileID: 36283110}
 --- !u!1001 &570645517
 PrefabInstance:
   m_ObjectHideFlags: 0

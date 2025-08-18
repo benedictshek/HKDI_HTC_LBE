@@ -6,13 +6,18 @@ public class GameFlowManager : NetworkBehaviour
     private DayNightController dayNightController;
     private PlaneFlyController planeFlyController;
     
-    public float initialDelay = 45f;
+    public float rooftopDuration = 30f;
+    public float planeDelay = 45f;
     
     private float timer;
     private bool hasTriggeredPlane;
     private bool hasTransitioned;
+    private bool hasMovedToGround;
 
     public GameObject[] cars;
+    
+    [Header("Player XR Origin")]
+    public GameObject xrOrigin; // Assign the player's XROrigin in the editor
     
     private void Awake()
     {
@@ -26,10 +31,35 @@ public class GameFlowManager : NetworkBehaviour
 
         timer += Time.deltaTime;
         
-        if (timer >= initialDelay && !hasTriggeredPlane)
+        // Phase 1 → Phase 2: Move to ground after rooftopDuration
+        if (timer >= rooftopDuration && !hasMovedToGround)
+        {
+            hasMovedToGround = true;
+            MovePlayerToGround();
+        }
+        
+        if (timer >= planeDelay + rooftopDuration && !hasTriggeredPlane && hasMovedToGround)
         {
             hasTriggeredPlane = true;
             planeFlyController.StartFlight(this);
+        }
+    }
+    
+    private void MovePlayerToGround()
+    {
+        if (xrOrigin != null)
+        {
+            xrOrigin.transform.position = Vector3.zero;
+            MovePlayerToGroundClientRpc();
+        }
+    }
+
+    [ClientRpc]
+    private void MovePlayerToGroundClientRpc()
+    {
+        if (xrOrigin != null)
+        {
+            xrOrigin.transform.position = Vector3.zero;
         }
     }
     
