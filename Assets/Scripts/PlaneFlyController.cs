@@ -13,7 +13,7 @@ public class PlaneFlyController : NetworkBehaviour
     
     private GameFlowManager callbackManager;
 
-    private void Awake()
+    private void Start()
     {
         startPos = plane.transform.position;
         plane.SetActive(false);
@@ -24,8 +24,21 @@ public class PlaneFlyController : NetworkBehaviour
         if (!IsServer) return;
 
         callbackManager = manager;
+        ShowPlaneClientRpc();
         plane.SetActive(true);
         StartCoroutine(PlaneFly());
+    }
+    
+    [ClientRpc]
+    private void ShowPlaneClientRpc()
+    {
+        plane.SetActive(true);
+    }
+
+    [ClientRpc]
+    private void HidePlaneClientRpc()
+    {
+        plane.SetActive(false);
     }
 
     private IEnumerator PlaneFly()
@@ -39,6 +52,7 @@ public class PlaneFlyController : NetworkBehaviour
             yield return null; // Wait for next frame
         }
 
+        HidePlaneClientRpc();
         // Hide the plane once it reaches the end
         plane.SetActive(false);
 

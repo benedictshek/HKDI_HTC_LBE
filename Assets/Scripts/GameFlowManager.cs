@@ -11,6 +11,8 @@ public class GameFlowManager : NetworkBehaviour
     private float timer;
     private bool hasTriggeredPlane;
     private bool hasTransitioned;
+
+    public GameObject[] cars;
     
     private void Awake()
     {
@@ -39,5 +41,24 @@ public class GameFlowManager : NetworkBehaviour
         bool nextIsNight = !dayNightController.IsNight();
         dayNightController.TriggerTransition(nextIsNight);
         hasTransitioned = true;
+
+        if (IsServer)
+        {
+            foreach (GameObject car in cars)
+            {
+                car.SetActive(false);
+            }
+        }
+        HideCarsClientRpc(); // Hide on all clients
+    }
+    
+    // Hides cars on all clients
+    [ClientRpc]
+    private void HideCarsClientRpc()
+    {
+        foreach (GameObject car in cars)
+        {
+            car.SetActive(false);
+        }
     }
 }

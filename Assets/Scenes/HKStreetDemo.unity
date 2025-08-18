@@ -66861,6 +66861,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
   initialDelay: 45
+  cars:
+  - {fileID: 113937575}
+  - {fileID: 1985825290}
 --- !u!1001 &570645517
 PrefabInstance:
   m_ObjectHideFlags: 0
