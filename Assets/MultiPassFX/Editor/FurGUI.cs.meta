@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: fd74097b7ec6a5748b1c735d0516235c
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 325702
+  packageName: MultiPassFX - Fur and Cloud
+  packageVersion: 1.0
+  assetPath: Assets/MultiPassFX/Editor/FurGUI.cs
+  uploadId: 772477

@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 749ed41fdb54ce145a5ec6202f9ab65b
+ShaderIncludeImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 325702
+  packageName: MultiPassFX - Fur and Cloud
+  packageVersion: 1.0
+  assetPath: Assets/MultiPassFX/Shaders/SkinnedMeshBuffer.hlsl
+  uploadId: 772477

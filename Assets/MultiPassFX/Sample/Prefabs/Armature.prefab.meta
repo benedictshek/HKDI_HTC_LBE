@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 0efdf7f65153ccf4d9925e7a21c039be
+PrefabImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 325702
+  packageName: MultiPassFX - Fur and Cloud
+  packageVersion: 1.0
+  assetPath: Assets/MultiPassFX/Sample/Prefabs/Armature.prefab
+  uploadId: 772477

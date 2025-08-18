@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: 8a85927950006e24291ac2d0d8722fe2
+ShaderImporter:
+  externalObjects: {}
+  defaultTextures: []
+  nonModifiableTextures: []
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 325702
+  packageName: MultiPassFX - Fur and Cloud
+  packageVersion: 1.0
+  assetPath: Assets/MultiPassFX/Shaders/HideSubMesh.shader
+  uploadId: 772477

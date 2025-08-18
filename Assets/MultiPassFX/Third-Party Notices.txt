@@ -1,0 +1,9 @@
+THIRD-PARTY NOTICES
+
+This asset includes the following third-party assets:
+
+1. Starter Assets - ThirdPerson | Updates in new CharacterController package
+   - From: Unity Technologies
+   - License: Non standard EULA
+   - Source: https://assetstore.unity.com/packages/essentials/starter-assets-thirdperson-updates-in-new-charactercontroller-pa-196526
+   - Folder: MultiPassFX/ThirdParty/StarterAssets

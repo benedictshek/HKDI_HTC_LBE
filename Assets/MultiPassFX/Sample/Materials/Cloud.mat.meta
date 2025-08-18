@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 0202c63a5006ee44e8a861829648d3ce
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 2100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 325702
+  packageName: MultiPassFX - Fur and Cloud
+  packageVersion: 1.0
+  assetPath: Assets/MultiPassFX/Sample/Materials/Cloud.mat
+  uploadId: 772477

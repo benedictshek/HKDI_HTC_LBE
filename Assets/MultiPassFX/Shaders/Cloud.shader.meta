@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: 1e0abea6b8ef28a4c83df89b355cae23
+ShaderImporter:
+  externalObjects: {}
+  defaultTextures: []
+  nonModifiableTextures: []
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 325702
+  packageName: MultiPassFX - Fur and Cloud
+  packageVersion: 1.0
+  assetPath: Assets/MultiPassFX/Shaders/Cloud.shader
+  uploadId: 772477

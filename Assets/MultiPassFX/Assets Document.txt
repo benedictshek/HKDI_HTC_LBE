@@ -1,0 +1,14 @@
+Textures in MultiPassFX/Sample/Textures are procedurally generated.
+
+texture list:
+
+1.blueNoise.png 256x256 RGB
+2.fur_1.png 256x256 RGB
+3.fur_2.png 256x256 RGB
+4.fur_3.png 256x256 RGB
+5.fur_4.png 256x256 RGB
+6.fur_5.png 512x512 RGB
+7.fur_6.png 512x512 RGB
+8.fur_7.tga 256x256 RGB
+9.fur_8.tga 256x256 RGB
+10.PerlinNoise32RGB.png 32x32x32 RGB

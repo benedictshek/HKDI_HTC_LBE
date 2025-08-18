@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 58534a12c311cc54a8f92801888287ae
+PrefabImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 325702
+  packageName: MultiPassFX - Fur and Cloud
+  packageVersion: 1.0
+  assetPath: Assets/MultiPassFX/Sample/Prefabs/Particle System.prefab
+  uploadId: 772477
