@@ -40,6 +40,12 @@ public class PlaneFlyController : NetworkBehaviour
     {
         plane.SetActive(false);
     }
+    
+    [ClientRpc]
+    private void UpdatePlanePositionClientRpc(Vector3 newPosition)
+    {
+        plane.transform.position = newPosition;
+    }
 
     private IEnumerator PlaneFly()
     {
@@ -48,7 +54,13 @@ public class PlaneFlyController : NetworkBehaviour
         // Move towards the end position
         while (Vector3.Distance(plane.transform.position, endTransform.position) > 0.1f)
         {
-            plane.transform.position = Vector3.MoveTowards(plane.transform.position, endTransform.position, speed * Time.deltaTime);
+            // Only the server updates the position
+            if (IsServer)
+            {
+                plane.transform.position = Vector3.MoveTowards(plane.transform.position, endTransform.position, speed * Time.deltaTime);
+                UpdatePlanePositionClientRpc(plane.transform.position); // Update clients
+            }
+        
             yield return null; // Wait for next frame
         }
 
