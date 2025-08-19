@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using Unity.Netcode;
 using UnityEngine.SceneManagement;
@@ -15,8 +16,79 @@ public class SceneTransitionManager : NetworkBehaviour
     
     public ScreenFader screenFader;
 
+    [Header("Audio Settings")]
+    public AudioSource audioSource;
+    public AudioClip welcomeClip;
+    public AudioClip guideClip;
+    public float welcomeDelay = 10f;
+    public float guideDelay = 30f; // Time after which player is guided
+    
+    private bool canTriggerTransition;
+    private bool isServerReady;
+
+    public GameObject Teleport;
+
+    private void Start()
+    {
+        Teleport.SetActive(false);
+    }
+
+    private void Update()
+    {
+        if (!IsServer || isServerReady) return;
+        isServerReady = true;
+
+        StartCoroutine(AudioGuideSequence());
+    }
+    
+    private IEnumerator AudioGuideSequence()
+    {
+        yield return new WaitForSeconds(welcomeDelay);
+        
+        // Play welcome audio
+        PlayAudioClientRpc(welcomeClip.name);
+
+        // Wait for the guide delay
+        yield return new WaitForSeconds(guideDelay);
+
+        // Play guide audio
+        PlayAudioClientRpc(guideClip.name);
+
+        // Enable trigger after guide audio
+        EnableTriggerClientRpc();
+        Teleport.SetActive(true);
+    }
+    
+    [ClientRpc]
+    private void PlayAudioClientRpc(string clipName)
+    {
+        if (audioSource == null) return;
+
+        AudioClip clipToPlay = null;
+
+        if (clipName == welcomeClip.name)
+            clipToPlay = welcomeClip;
+        else if (clipName == guideClip.name)
+            clipToPlay = guideClip;
+
+        if (clipToPlay != null)
+        {
+            audioSource.clip = clipToPlay;
+            audioSource.Play();
+        }
+    }
+    
+    [ClientRpc]
+    private void EnableTriggerClientRpc()
+    {
+        canTriggerTransition = true;
+        Teleport.SetActive(true);
+    }
+
     private void OnTriggerEnter(Collider other)
     {
+        if (!canTriggerTransition) return;
+        
         if (other.GetComponentInParent<NetworkObject>().IsOwner)
         {
             RequestSceneTransitionServerRpc();
