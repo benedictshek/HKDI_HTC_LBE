@@ -26,6 +26,9 @@ public class GameFlowManager : NetworkBehaviour
     
     public GameObject[] characters2D;
     
+    [Header("Audio")]
+    public AudioSource avoidCarAudioSource; // Set in inspector
+    
     private void Awake()
     {
         dayNightController = GetComponent<DayNightController>();
@@ -55,8 +58,8 @@ public class GameFlowManager : NetworkBehaviour
             hasTriggeredPlane = true;
             planeFlyController.StartFlight(this);
             
-            SetCharacters2DVisible(false);
-            HideCharacters2DClientRpc();
+            //SetCharacters2DVisible(false);
+            //HideCharacters2DClientRpc();
         }
     }
 
@@ -85,8 +88,10 @@ public class GameFlowManager : NetworkBehaviour
         
         screenFader.FadeOut(fadeOutDuration);
         
-        SetCharacters2DVisible(true);
-        ShowCharacters2DClientRpc();
+        //SetCharacters2DVisible(true);
+        //ShowCharacters2DClientRpc();
+        PlayGroundAudio();
+        PlayGroundAudioClientRpc();
         MovePlayerToGroundClientRpc();
     }
 
@@ -99,6 +104,23 @@ public class GameFlowManager : NetworkBehaviour
         }
         
         screenFader.FadeOut(fadeOutDuration);
+    }
+    
+    private void PlayGroundAudio()
+    {
+        if (avoidCarAudioSource != null)
+        {
+            avoidCarAudioSource.Play();
+        }
+    }
+
+    [ClientRpc]
+    private void PlayGroundAudioClientRpc()
+    {
+        if (avoidCarAudioSource != null)
+        {
+            avoidCarAudioSource.Play();
+        }
     }
     
     [ClientRpc]
@@ -126,6 +148,9 @@ public class GameFlowManager : NetworkBehaviour
     public void OnPlaneFlightCompleted()
     {
         if (hasTransitioned) return;
+        
+        SetCharacters2DVisible(true);
+        ShowCharacters2DClientRpc();
 
         bool nextIsNight = !dayNightController.IsNight();
         dayNightController.TriggerTransition(nextIsNight);
