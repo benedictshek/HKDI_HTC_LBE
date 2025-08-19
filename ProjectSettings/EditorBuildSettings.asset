@@ -15,6 +15,9 @@ EditorBuildSettings:
     path: Assets/Scenes/SampleScene.unity
     guid: 99c9720ab356a0642a771bea13969a05
   - enabled: 1
+    path: Assets/Scenes/ElevatorRoom.unity
+    guid: 08c5ef4ade89631488a793880f9beebd
+  - enabled: 1
     path: Assets/Scenes/HKStreetDemo.unity
     guid: 0b8b2d84e363d8d498d4f18f0f90de88
   m_configObjects:

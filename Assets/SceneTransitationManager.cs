@@ -1,44 +1,74 @@
 using UnityEngine;
+using Unity.Netcode;
 using UnityEngine.SceneManagement;
-using UnityEngine.UI;
 using System.Collections;
 
-public class SceneTransitationManager : MonoBehaviour
+public class SceneTransitionManager : NetworkBehaviour
 {
-public Animator animator;
-public Image blackScreen; // Assign the black screen Image in the Inspector
-public float fadeDuration = 1f;
-public string nextSceneName; // Name of the scene to load
+    [Header("Transition Settings")]
+    public Animator animator;
+    public string nextSceneName;
+    public float animationDuration = 15f; // Wait time before fade
+    public float fadeDuration = 4f;
 
-private void Start()
-{
-blackScreen.gameObject.SetActive(true);
-blackScreen.color = new Color(1, 1, 1, 0); // Start transparent
-}
+    private bool transitionStarted = false;
+    
+    public ScreenFader screenFader;
 
-private void OnTriggerEnter(Collider other)
-{
-Debug.Log("Trigger entered by: " + other.gameObject.name);
-if (other.CompareTag("MainCamera")) // Ensure the collider is triggered by the player
-{
-animator.SetTrigger("PlayAnimation"); 
-StartCoroutine(FadeToBlackAndLoadScene()); // Replace with your next scene name
-}
-}
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.GetComponentInParent<NetworkObject>().IsOwner)
+        {
+            RequestSceneTransitionServerRpc();
+        }
+    }
 
-private IEnumerator FadeToBlackAndLoadScene()
-{
-// Fade to black
-for (float t = 0; t < fadeDuration; t += Time.deltaTime)
-{
-float normalizedTime = t / fadeDuration;
-blackScreen.color = new Color(1, 1, 1, normalizedTime);
-yield return null;
-}
+    [ServerRpc(RequireOwnership = false)]
+    private void RequestSceneTransitionServerRpc(ServerRpcParams rpcParams = default)
+    {
+        if (transitionStarted) return;
+        transitionStarted = true;
 
-blackScreen.color = new Color(0, 0, 0, 1); // Ensure it's fully opaque
+        PlayAnimationClientRpc();
 
-// Load the next scene
-SceneManager.LoadScene(nextSceneName);
-}
+        // Delay for animation and fade, then load scene
+        StartCoroutine(DelayedSceneChange());
+    }
+
+    [ClientRpc]
+    private void PlayAnimationClientRpc()
+    {
+        if (animator != null)
+        {
+            animator.SetTrigger("PlayAnimation");
+        }
+    }
+
+    private IEnumerator DelayedSceneChange()
+    {
+        yield return new WaitForSeconds(animationDuration - fadeDuration);
+        
+        FadeInClientRpc();
+        
+        yield return new WaitForSeconds(fadeDuration);
+
+        if (!string.IsNullOrEmpty(nextSceneName))
+        {
+            // Use Netcode SceneManager to sync scene load
+            NetworkManager.SceneManager.LoadScene(
+                nextSceneName,
+                LoadSceneMode.Single
+            );
+        }
+        else
+        {
+            Debug.LogError("Next scene name is not set.");
+        }
+    }
+    
+    [ClientRpc]
+    private void FadeInClientRpc()
+    {
+        screenFader.FadeIn(fadeDuration);
+    }
 }
