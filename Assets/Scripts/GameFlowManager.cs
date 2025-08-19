@@ -13,6 +13,7 @@ public class GameFlowManager : NetworkBehaviour
     
     public float rooftopDuration = 30f;
     public float planeDelay = 45f;
+    public float characters2DDuration = 15f;
     
     private float timer;
     private bool hasTriggeredPlane;
@@ -28,6 +29,9 @@ public class GameFlowManager : NetworkBehaviour
     
     [Header("Audio")]
     public AudioSource avoidCarAudioSource; // Set in inspector
+    public AudioSource guideToShowMcDull;
+
+    public McDullZone TriggerMcDullZone;
     
     private void Awake()
     {
@@ -149,7 +153,18 @@ public class GameFlowManager : NetworkBehaviour
     {
         if (hasTransitioned) return;
         
-        SetCharacters2DVisible(true);
+        StartCoroutine(Show2DCharacters());
+        
+        if (IsServer)
+        {
+            foreach (GameObject car in cars)
+            {
+                car.SetActive(false);
+            }
+        }
+        HideCarsClientRpc(); // Hide on all clients
+        
+        /*SetCharacters2DVisible(true);
         ShowCharacters2DClientRpc();
 
         bool nextIsNight = !dayNightController.IsNight();
@@ -163,7 +178,51 @@ public class GameFlowManager : NetworkBehaviour
                 car.SetActive(false);
             }
         }
-        HideCarsClientRpc(); // Hide on all clients
+        HideCarsClientRpc(); // Hide on all clients*/
+    }
+
+    private IEnumerator Show2DCharacters()
+    {
+        SetCharacters2DVisible(true);
+        ShowCharacters2DClientRpc();
+
+        yield return new WaitForSeconds(characters2DDuration);
+        
+        SetCharacters2DVisible(false);
+        HideCharacters2DClientRpc();
+        
+        PlayGuideMcDullAudio();
+        PlayGuideMcDullAudioClientRpc();
+        
+        TriggerMcDullZone.ActiveZone();
+        ShowMcDullZoneClientRpc();
+        
+        bool nextIsNight = !dayNightController.IsNight();
+        dayNightController.TriggerTransition(nextIsNight);
+        hasTransitioned = true;
+    }
+    
+    [ClientRpc]
+    private void ShowMcDullZoneClientRpc()
+    {
+        TriggerMcDullZone.ActiveZone();
+    }
+    
+    private void PlayGuideMcDullAudio()
+    {
+        if (guideToShowMcDull != null)
+        {
+            guideToShowMcDull.Play();
+        }
+    }
+
+    [ClientRpc]
+    private void PlayGuideMcDullAudioClientRpc()
+    {
+        if (guideToShowMcDull != null)
+        {
+            guideToShowMcDull.Play();
+        }
     }
     
     // Hides cars on all clients
@@ -174,5 +233,12 @@ public class GameFlowManager : NetworkBehaviour
         {
             car.SetActive(false);
         }
+    }
+
+    public void TriggerDayNightTransition()
+    {
+        bool nextIsNight = !dayNightController.IsNight();
+        dayNightController.TriggerTransition(nextIsNight);
+        hasTransitioned = true;
     }
 }
