@@ -67042,7 +67042,7 @@ MonoBehaviour:
   - {fileID: 1167651663}
   - {fileID: 534924324}
   - {fileID: 813045186}
-  transitionDuration: 20
+  transitionDuration: 30
 --- !u!114 &569848643
 MonoBehaviour:
   m_ObjectHideFlags: 0
