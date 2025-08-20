@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using Unity.Netcode;
 using UnityEngine.SceneManagement;
@@ -53,6 +52,8 @@ public class SceneTransitionManager : NetworkBehaviour
 
         // Play guide audio
         PlayAudioClientRpc(guideClip.name);
+        
+        yield return new WaitForSeconds(guideClip.length);
 
         // Enable trigger after guide audio
         EnableTriggerClientRpc();

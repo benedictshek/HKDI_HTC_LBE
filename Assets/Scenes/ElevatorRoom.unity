@@ -4962,8 +4962,8 @@ MonoBehaviour:
   audioSource: {fileID: 1915780369}
   welcomeClip: {fileID: 8300000, guid: a707f8629bbd551458620aaa914f000d, type: 3}
   guideClip: {fileID: 8300000, guid: e364c9b8a7cffcb42ae02f10d10b2a59, type: 3}
-  welcomeDelay: 10
-  guideDelay: 30
+  welcomeDelay: 15
+  guideDelay: 45
   Teleport: {fileID: 795456734}
 --- !u!114 &1915780368
 MonoBehaviour:

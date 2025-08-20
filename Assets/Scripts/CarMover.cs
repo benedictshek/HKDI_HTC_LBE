@@ -18,6 +18,9 @@ public class CarMover : NetworkBehaviour
     // Networked version of isWaiting
     private NetworkVariable<bool> isWaiting = new NetworkVariable<bool>(false, 
         NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
+    
+    private bool hasResetOnce = false; // Track if car has reset once
+    private bool stopAtCrossing = false; // After first reset, stop at crossing
 
     void Start()
     {
@@ -32,7 +35,7 @@ public class CarMover : NetworkBehaviour
     {
         if (IsServer)
         {
-            if (isWaiting.Value || waypoints.Length < 2) return;
+            if (isWaiting.Value || waypoints.Length < 2 || stopAtCrossing) return;
 
             Transform target = waypoints[currentWaypointIndex];
             transform.position = Vector3.MoveTowards(transform.position, target.position, speed * Time.deltaTime);
@@ -47,13 +50,19 @@ public class CarMover : NetworkBehaviour
                 }
                 else if (currentWaypointIndex == 2)
                 {
+                    if (hasResetOnce)
+                    {
+                        stopAtCrossing = true;
+                        return;
+                    }
+
                     StartCoroutine(WaitAtCrossing(waitCrossing));
                 }
             }
         }
 
         // Rotate wheels on all clients, but only if not waiting
-        if (!isWaiting.Value)
+        if (!isWaiting.Value && !stopAtCrossing)
         {
             RotateWheels();
         }
@@ -93,5 +102,6 @@ public class CarMover : NetworkBehaviour
 
         currentWaypointIndex = 1;
         isWaiting.Value = false;
+        hasResetOnce = true;
     }
 }
